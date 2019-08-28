@@ -21,7 +21,7 @@ public class BabbleController implements Initializable {
 	}
 	
 	public void initTiles() {
-		this.tiles.getItems().
+		
 	}
 	
 	@Override
