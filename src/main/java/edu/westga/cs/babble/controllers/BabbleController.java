@@ -19,14 +19,18 @@ public class BabbleController implements Initializable {
 	private TileBag bag;
 	private Tile tile;
 	private TileRack rack;
+
 	@FXML 
 	public ListView tiles;
+	@FXML
+	public ListView myWord;
+	@FXML
 	public Button test;
 
 	@FXML public TextField text;
 	
 	public void setText() throws TileRackFullException, EmptyTileBagException {
-		//this.text.setText("it worked");
+		
 		System.out.println(this.bag.getBagSize());
 		this.rack.append(this.bag.drawTile());
 		System.out.println(this.rack.getNumberOfTilesNeeded());
@@ -38,10 +42,17 @@ public class BabbleController implements Initializable {
 	}
 
 	public void placeTiles() throws TileRackFullException, EmptyTileBagException {
-		for (int count = 0; count <= this.rack.getNumberOfTilesNeeded(); count++) {
+		System.out.println(this.bag.getBagSize());
+		System.out.println(this.rack.getNumberOfTilesNeeded());
+		int tilesNeeded = this.rack.getNumberOfTilesNeeded();
+		for (int count = 0; count < tilesNeeded; count++) {
 			this.rack.append(this.bag.drawTile());
 		}
-		
+		for (int i = 0; i < this.rack.tiles().size(); i++) {
+			System.out.print(this.rack.tiles().get(i).getLetter() + " ");
+		}
+		System.out.println(this.rack.getNumberOfTilesNeeded());
+		this.text.setText("it worked");
 	}
 	
 	@Override
