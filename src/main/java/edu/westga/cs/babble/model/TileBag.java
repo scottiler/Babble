@@ -94,4 +94,12 @@ public class TileBag {
 		Tile patsy = tiles.remove(index);
 		return patsy;
 	}
+	
+	public int getBagSize() {
+		return this.tiles.size();
+	}
+	
+	public char getCharAtIndex(int index) {
+		return this.tiles.get(index).getLetter();
+	}
 }

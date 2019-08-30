@@ -22,7 +22,7 @@
                   <Insets left="20.0" top="20.0" />
                </padding>
             </Label>
-            <ListView orientation="HORIZONTAL" prefHeight="60.0">
+            <ListView onEditStart="#placeTiltes" orientation="HORIZONTAL" prefHeight="60.0">
                <padding>
                   <Insets right="20.0" />
                </padding>
@@ -62,8 +62,8 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" text="Test" />
-                  <TextField />
+                  <Button fx:id="test" mnemonicParsing="false" onAction="#setText" text="Test" />
+                  <TextField fx:id="text" />
                   <Label alignment="CENTER" text="Score">
                      <font>
                         <Font size="20.0" />
