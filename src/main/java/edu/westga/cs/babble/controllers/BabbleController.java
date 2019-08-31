@@ -31,7 +31,7 @@ public class BabbleController implements Initializable {
 
 	@FXML public TextField text;
 	
-	public void init() {
+	public void init() throws TileRackFullException, EmptyTileBagException {
 		this.tiles.setItems(this.rack.tiles());
 		this.tiles.setCellFactory(new Callback<ListView<Tile>, ListCell<Tile>>() {
 			@Override
@@ -39,6 +39,7 @@ public class BabbleController implements Initializable {
                 return new LetterCell();
             }
 		});
+		this.placeTiles();
 	}
 	
 	public void setText() throws TileRackFullException, EmptyTileBagException {
@@ -60,7 +61,13 @@ public class BabbleController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.rack = new TileRack();
 		this.bag = new TileBag();
-		this.init();
+		try {
+			this.init();
+		} catch (TileRackFullException e) {
+			e.printStackTrace();
+		} catch (EmptyTileBagException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
