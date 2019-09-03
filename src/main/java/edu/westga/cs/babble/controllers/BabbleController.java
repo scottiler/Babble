@@ -9,6 +9,7 @@ import edu.westga.cs.babble.model.TileRack;
 import edu.westga.cs.babble.model.TileRackFullException;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,6 +63,14 @@ public class BabbleController implements Initializable {
 		Tile selectedTile = this.tiles.getSelectionModel().getSelectedItem();
 		this.wordRack.append(selectedTile);
 		this.rack.remove(selectedTile);
+		this.tilesSize.setText(String.valueOf(this.rack.tiles().size()));
+		this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
+	}
+	
+	public void selectTileFromWordRack() throws TileRackFullException, EmptyTileBagException, TileNotInGroupException {
+		Tile selectedTile = this.myWord.getSelectionModel().getSelectedItem();
+		this.rack.append(selectedTile);
+		this.wordRack.remove(selectedTile);
 		this.tilesSize.setText(String.valueOf(this.rack.tiles().size()));
 		this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
 	}

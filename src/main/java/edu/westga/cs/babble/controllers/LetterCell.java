@@ -11,6 +11,9 @@ public class LetterCell extends ListCell<Tile>{
 		if (item != null) {
             setText(String.valueOf(item.getLetter()));
             setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 25));
+            setAccessibleText(String.valueOf(item.getLetter()));
+        } else {
+        	setText("");
         }
 	}
 
