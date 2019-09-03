@@ -22,7 +22,7 @@
                   <Insets left="20.0" top="20.0" />
                </padding>
             </Label>
-            <ListView fx:id="tiles" orientation="HORIZONTAL" prefHeight="60.0">
+            <ListView fx:id="tiles" onMouseClicked="#selectTileFromTiles" orientation="HORIZONTAL" prefHeight="60.0">
                <padding>
                   <Insets right="20.0" />
                </padding>
@@ -38,19 +38,35 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <ListView orientation="HORIZONTAL" prefHeight="60.0">
+            <ListView fx:id="myWord" orientation="HORIZONTAL" prefHeight="60.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
             </ListView>
             <HBox alignment="CENTER_RIGHT" prefHeight="50.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" text="Reset">
+                  <VBox prefHeight="50.0" prefWidth="394.0" spacing="10.0">
+                     <children>
+                        <HBox prefHeight="50.0" prefWidth="317.0" spacing="10.0">
+                           <children>
+                              <Label text="Tiles Size" />
+                              <TextField fx:id="tilesSize" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Label text="myWord Size" />
+                              <TextField fx:id="myWordSize" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <Button fx:id="reset" mnemonicParsing="false" onAction="#reset" text="Reset">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" text="Play Word">
+                  <Button fx:id="playWord" contentDisplay="CENTER" mnemonicParsing="false" text="Play Word">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -60,7 +76,7 @@
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox alignment="TOP_RIGHT" prefHeight="80.0" prefWidth="560.0" spacing="10.0">
                <children>
                   <Button fx:id="test" mnemonicParsing="false" onAction="#placeTiles" text="Test" />
                   <TextField fx:id="text" />
@@ -69,7 +85,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="score">
                      <font>
                         <Font size="15.0" />
                      </font>

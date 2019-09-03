@@ -4,6 +4,7 @@ import edu.westga.cs.babble.model.EmptyTileBagException;
 import edu.westga.cs.babble.model.Tile;
 import edu.westga.cs.babble.model.TileBag;
 import edu.westga.cs.babble.model.TileGroup;
+import edu.westga.cs.babble.model.TileNotInGroupException;
 import edu.westga.cs.babble.model.TileRack;
 import edu.westga.cs.babble.model.TileRackFullException;
 
@@ -19,21 +20,36 @@ import javafx.util.Callback;
 
 public class BabbleController implements Initializable {
 	private TileBag bag;
-	private Tile tile;
 	private TileRack rack;
+	private TileRack wordRack;
+	private TileRack resetRack;
 
-	@FXML 
-	public ListView<Tile> tiles;
-	@FXML
-	public ListView myWord;
+	@FXML public ListView<Tile> tiles;
+	@FXML public ListView<Tile> myWord;
+	@FXML public Button reset;
+	@FXML public Button playword;
+	@FXML public TextField score;
+	
 	@FXML
 	public Button test;
-
-	@FXML public TextField text;
+	@FXML 
+	public TextField text;
+	@FXML
+	public TextField tilesSize;
+	@FXML
+	public TextField myWordSize;
 	
 	public void init() throws TileRackFullException, EmptyTileBagException {
 		this.tiles.setItems(this.rack.tiles());
+		this.myWord.setItems(this.wordRack.tiles());
 		this.tiles.setCellFactory(new Callback<ListView<Tile>, ListCell<Tile>>() {
+			@Override
+            public ListCell<Tile> call(ListView<Tile> list) {
+                return new LetterCell();
+            }
+		});
+		
+		this.myWord.setCellFactory(new Callback<ListView<Tile>, ListCell<Tile>>() {
 			@Override
             public ListCell<Tile> call(ListView<Tile> list) {
                 return new LetterCell();
@@ -42,8 +58,25 @@ public class BabbleController implements Initializable {
 		this.placeTiles();
 	}
 	
-	public void setText() throws TileRackFullException, EmptyTileBagException {
+	public void selectTileFromTiles() throws TileRackFullException, EmptyTileBagException, TileNotInGroupException {
+		Tile selectedTile = this.tiles.getSelectionModel().getSelectedItem();
+		this.wordRack.append(selectedTile);
+		this.rack.remove(selectedTile);
+		this.tilesSize.setText(String.valueOf(this.rack.tiles().size()));
+		this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
+	}
+	
+	public void reset() throws TileNotInGroupException {
+		for (Tile tile : this.wordRack.tiles()) {
+			this.rack.append(tile);
+			this.wordRack.remove(tile);
+			this.tilesSize.setText(String.valueOf(this.rack.tiles().size()));
+			this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
+		}
 		
+		for (int i = 0; i < this.rack.tiles().size(); i++) {
+			System.out.print(this.rack.tiles().get(i).getLetter() + " ");
+		}
 	}
 
 	public void placeTiles() throws TileRackFullException, EmptyTileBagException {
@@ -54,12 +87,13 @@ public class BabbleController implements Initializable {
 		for (int i = 0; i < this.rack.tiles().size(); i++) {
 			System.out.print(this.rack.tiles().get(i).getLetter() + " ");
 		}
-		this.text.setText("it worked");
+		
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.rack = new TileRack();
+		this.wordRack = new TileRack();
 		this.bag = new TileBag();
 		try {
 			this.init();
