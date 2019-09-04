@@ -13,8 +13,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -42,7 +45,7 @@ public class BabbleController implements Initializable {
 	public TextField text;
 	
 	
-	public void init() throws TileRackFullException, EmptyTileBagException {
+	public void init() {
 		this.tiles.setItems(this.rack.tiles());
 		this.myWord.setItems(this.wordRack.tiles());
 		this.tiles.setCellFactory(new Callback<ListView<Tile>, ListCell<Tile>>() {
@@ -69,7 +72,7 @@ public class BabbleController implements Initializable {
 		this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
 	}
 	
-	public void selectTileFromWordRack() throws TileRackFullException, EmptyTileBagException, TileNotInGroupException {
+	public void selectTileFromWordRack() throws TileNotInGroupException {
 		Tile selectedTile = this.myWord.getSelectionModel().getSelectedItem();
 		this.rack.append(selectedTile);
 		this.wordRack.remove(selectedTile);
@@ -77,27 +80,43 @@ public class BabbleController implements Initializable {
 		this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
 	}
 	
-	public void playWord() {
+	public void playWord() throws TileNotInGroupException {
 		String word = this.wordRack.getHand();
+		int tileScore = 0;
 		if (this.dictionary.isValidWord(word)) {
-			
-		}
+			for (Tile tile : this.wordRack.tiles()) {
+				tileScore += tile.getPointValue();
+			}
+			this.totalScore.setScoreTotal(tileScore);
+			this.score.setText(String.valueOf(tileScore));
+			this.wordRack.tiles().clear();
+			this.placeTiles();
+		} else {
+			Alert notWord = new Alert(AlertType.INFORMATION);
+			notWord.setContentText("Not a valid word, Reset and try again"); 
+			notWord.show(); 
+      } 
+  
 		this.text.setText(word);
 	}
 	
-	public void reset() throws TileNotInGroupException {
-		//for (Tile tile : this.wordRack.tiles()) {
-		for (int index = this.wordRack.tiles().size() - 1; index >= 0; index--) {
-			Tile tile = this.wordRack.tiles().get(index);
+	public void reset() {
+		for (Tile tile : this.wordRack.tiles()) {
 			this.rack.append(tile);
-			this.wordRack.remove(tile);
 		}
+		this.wordRack.tiles().clear();
 	}
 
-	public void placeTiles() throws TileRackFullException, EmptyTileBagException {
+	public void placeTiles() {
 		int tilesNeeded = this.rack.getNumberOfTilesNeeded();
 		for (int count = 0; count < tilesNeeded; count++) {
-			this.rack.append(this.bag.drawTile());
+			try {
+				this.rack.append(this.bag.drawTile());
+			} catch (TileRackFullException e) {
+				e.printStackTrace();
+			} catch (EmptyTileBagException e) {
+				e.printStackTrace();
+			}
 		}
 		for (int i = 0; i < this.rack.tiles().size(); i++) {
 			System.out.print(this.rack.tiles().get(i).getLetter() + " ");
@@ -111,14 +130,8 @@ public class BabbleController implements Initializable {
 		this.wordRack = new TileRack();
 		this.bag = new TileBag();
 		this.dictionary = new WordDictionary();
-	//	this.totalScore.scoreTotalProperty().asString().bindBidirectional(this.score.textProperty());
-		try {
-			this.init();
-		} catch (TileRackFullException e) {
-			e.printStackTrace();
-		} catch (EmptyTileBagException e) {
-			e.printStackTrace();
-		}
+		this.totalScore.scoreTotalProperty().asString().bindBidirectional(this.score.textProperty());
+		this.init();
 	}
 
 }
