@@ -12,8 +12,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
+import javafx.css.converter.StringConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -23,6 +25,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
+import javafx.util.converter.NumberStringConverter;
 
 public class BabbleController implements Initializable {
 	private TileBag bag;
@@ -88,7 +91,6 @@ public class BabbleController implements Initializable {
 				tileScore += tile.getPointValue();
 			}
 			this.totalScore.setScoreTotal(tileScore);
-			this.score.setText(String.valueOf(tileScore));
 			this.wordRack.tiles().clear();
 			this.placeTiles();
 		} else {
@@ -118,10 +120,6 @@ public class BabbleController implements Initializable {
 				e.printStackTrace();
 			}
 		}
-		for (int i = 0; i < this.rack.tiles().size(); i++) {
-			System.out.print(this.rack.tiles().get(i).getLetter() + " ");
-		}
-		
 	}
 	
 	@Override
@@ -130,7 +128,7 @@ public class BabbleController implements Initializable {
 		this.wordRack = new TileRack();
 		this.bag = new TileBag();
 		this.dictionary = new WordDictionary();
-		this.totalScore.scoreTotalProperty().asString().bindBidirectional(this.score.textProperty());
+		this.score.textProperty().bindBidirectional(this.totalScore.scoreTotalProperty(), new NumberStringConverter());
 		this.init();
 	}
 
