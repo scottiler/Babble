@@ -1,10 +1,11 @@
 package edu.westga.cs.babble.controllers;
+
 import edu.westga.cs.babble.model.Tile;
 import javafx.scene.control.ListCell;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class LetterCell extends ListCell<Tile>{
+public class LetterCell extends ListCell<Tile> {
 	@Override
 	public void updateItem(Tile item, boolean empty) {
 		super.updateItem(item, empty);

@@ -33,6 +33,7 @@ public class BabbleController implements Initializable {
 	private TileRack wordRack;
 	private WordDictionary dictionary;
 	private final TotalScore totalScore = new TotalScore();
+	private int tileScore;
 
 	@FXML public ListView<Tile> tiles;
 	@FXML public ListView<Tile> myWord;
@@ -85,10 +86,10 @@ public class BabbleController implements Initializable {
 	
 	public void playWord() throws TileNotInGroupException {
 		String word = this.wordRack.getHand();
-		int tileScore = 0;
+		
 		if (this.dictionary.isValidWord(word)) {
 			for (Tile tile : this.wordRack.tiles()) {
-				tileScore += tile.getPointValue();
+				this.tileScore += tile.getPointValue();
 			}
 			this.totalScore.setScoreTotal(tileScore);
 			this.wordRack.tiles().clear();
