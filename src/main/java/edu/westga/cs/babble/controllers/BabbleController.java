@@ -11,6 +11,8 @@ import edu.westga.cs.babble.model.TileRackFullException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.IntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -23,22 +25,22 @@ public class BabbleController implements Initializable {
 	private TileBag bag;
 	private TileRack rack;
 	private TileRack wordRack;
-	private TileRack resetRack;
+	private WordDictionary dictionary;
+	private final TotalScore totalScore = new TotalScore();
 
 	@FXML public ListView<Tile> tiles;
 	@FXML public ListView<Tile> myWord;
 	@FXML public Button reset;
 	@FXML public Button playword;
 	@FXML public TextField score;
+	@FXML public TextField tilesSize;
+	@FXML public TextField myWordSize;
 	
 	@FXML
 	public Button test;
 	@FXML 
 	public TextField text;
-	@FXML
-	public TextField tilesSize;
-	@FXML
-	public TextField myWordSize;
+	
 	
 	public void init() throws TileRackFullException, EmptyTileBagException {
 		this.tiles.setItems(this.rack.tiles());
@@ -75,16 +77,20 @@ public class BabbleController implements Initializable {
 		this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
 	}
 	
+	public void playWord() {
+		String word = this.wordRack.getHand();
+		if (this.dictionary.isValidWord(word)) {
+			
+		}
+		this.text.setText(word);
+	}
+	
 	public void reset() throws TileNotInGroupException {
-		for (Tile tile : this.wordRack.tiles()) {
+		//for (Tile tile : this.wordRack.tiles()) {
+		for (int index = this.wordRack.tiles().size() - 1; index >= 0; index--) {
+			Tile tile = this.wordRack.tiles().get(index);
 			this.rack.append(tile);
 			this.wordRack.remove(tile);
-			this.tilesSize.setText(String.valueOf(this.rack.tiles().size()));
-			this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
-		}
-		
-		for (int i = 0; i < this.rack.tiles().size(); i++) {
-			System.out.print(this.rack.tiles().get(i).getLetter() + " ");
 		}
 	}
 
@@ -104,6 +110,8 @@ public class BabbleController implements Initializable {
 		this.rack = new TileRack();
 		this.wordRack = new TileRack();
 		this.bag = new TileBag();
+		this.dictionary = new WordDictionary();
+	//	this.totalScore.scoreTotalProperty().asString().bindBidirectional(this.score.textProperty());
 		try {
 			this.init();
 		} catch (TileRackFullException e) {
