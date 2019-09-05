@@ -52,6 +52,7 @@ public class BabbleController implements Initializable {
 	public void init() {
 		this.tiles.setItems(this.rack.tiles());
 		this.myWord.setItems(this.wordRack.tiles());
+		this.score.setEditable(false);
 		this.tiles.setCellFactory(new Callback<ListView<Tile>, ListCell<Tile>>() {
 			@Override
             public ListCell<Tile> call(ListView<Tile> list) {
@@ -77,11 +78,11 @@ public class BabbleController implements Initializable {
 	}
 	
 	public void selectTileFromWordRack() throws TileNotInGroupException {
-		Tile selectedTile = this.myWord.getSelectionModel().getSelectedItem();
-		this.rack.append(selectedTile);
-		this.wordRack.remove(selectedTile);
-		this.tilesSize.setText(String.valueOf(this.rack.tiles().size()));
-		this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
+		if (!this.wordRack.tiles().isEmpty()) {
+			Tile selectedTile = this.myWord.getSelectionModel().getSelectedItem();
+			this.rack.append(selectedTile);
+			this.wordRack.remove(selectedTile);
+		}
 	}
 	
 	public void playWord() throws TileNotInGroupException {
@@ -96,7 +97,8 @@ public class BabbleController implements Initializable {
 			this.placeTiles();
 		} else {
 			Alert notWord = new Alert(AlertType.INFORMATION);
-			notWord.setContentText("Not a valid word, Reset and try again"); 
+			notWord.setTitle("Word Not Found");
+			notWord.setContentText("Not a valid word, Reset and try again");
 			notWord.show(); 
       } 
   
