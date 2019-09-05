@@ -68,6 +68,5 @@ class TestTileBagDrawTile {
 		assertEquals(1, this.charOccurs('X'));
 		assertEquals(2, this.charOccurs('Y'));
 		assertEquals(1, this.charOccurs('Z'));
-		
 	}
 }
