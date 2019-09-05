@@ -2,14 +2,13 @@ package edu.westga.cs.babble.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class TestTileConstructor {
 
 	@Test
 	void shouldNotAllowNonLetters() {
-		IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
 			Tile tile = new Tile('1');
 		    });
 		 assertTrue(thrown.getMessage().contains("letter must be between A and Z"));
