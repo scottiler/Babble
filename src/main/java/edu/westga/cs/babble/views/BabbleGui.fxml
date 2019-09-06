@@ -54,18 +54,7 @@
                <children>
                   <VBox prefHeight="50.0" prefWidth="394.0" spacing="10.0">
                      <children>
-                        <HBox prefHeight="50.0" prefWidth="317.0" spacing="10.0">
-                           <children>
-                              <Label text="Tiles Size" />
-                              <TextField fx:id="tilesSize" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                           <children>
-                              <Label text="myWord Size" />
-                              <TextField fx:id="myWordSize" />
-                           </children>
-                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" />
                      </children>
                   </VBox>
                   <Button fx:id="reset" mnemonicParsing="false" onAction="#reset" text="Reset">
@@ -85,8 +74,6 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="80.0" prefWidth="560.0" spacing="10.0">
                <children>
-                  <Button fx:id="test" mnemonicParsing="false" onAction="#placeTiles" text="Test" />
-                  <TextField fx:id="text" />
                   <Label alignment="CENTER" text="Score">
                      <font>
                         <Font size="20.0" />
