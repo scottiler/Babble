@@ -1,6 +1,7 @@
 package edu.westga.cs.babble.controllers;
 
 import edu.westga.cs.babble.model.EmptyTileBagException;
+import edu.westga.cs.babble.model.PlayedWord;
 import edu.westga.cs.babble.model.Tile;
 import edu.westga.cs.babble.model.TileBag;
 import edu.westga.cs.babble.model.TileGroup;
@@ -30,7 +31,7 @@ import javafx.util.converter.NumberStringConverter;
 public class BabbleController implements Initializable {
 	private TileBag bag;
 	private TileRack rack;
-	private TileRack wordRack;
+	private PlayedWord wordRack;
 	private WordDictionary dictionary;
 	private final TotalScore totalScore = new TotalScore();
 	private int tileScore;
@@ -89,11 +90,10 @@ public class BabbleController implements Initializable {
 		String word = this.wordRack.getHand();
 		
 		if (this.dictionary.isValidWord(word)) {
-			for (Tile tile : this.wordRack.tiles()) {
-				this.tileScore += tile.getPointValue();
-			}
+			this.tileScore = this.wordRack.getScore();
+			
 			this.totalScore.setScoreTotal(tileScore);
-			this.wordRack.tiles().clear();
+			this.wordRack.clear();
 			this.placeTiles();
 		} else {
 			Alert notWord = new Alert(AlertType.INFORMATION);
@@ -109,7 +109,7 @@ public class BabbleController implements Initializable {
 		for (Tile tile : this.wordRack.tiles()) {
 			this.rack.append(tile);
 		}
-		this.wordRack.tiles().clear();
+		this.wordRack.clear();
 	}
 
 	public void placeTiles() {
@@ -128,7 +128,7 @@ public class BabbleController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.rack = new TileRack();
-		this.wordRack = new TileRack();
+		this.wordRack = new PlayedWord();
 		this.bag = new TileBag();
 		this.dictionary = new WordDictionary();
 		this.score.textProperty().bindBidirectional(this.totalScore.scoreTotalProperty(), new NumberStringConverter());
