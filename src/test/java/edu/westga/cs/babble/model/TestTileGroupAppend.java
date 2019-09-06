@@ -24,6 +24,7 @@ class TestTileGroupAppend {
 	@Test
 	void shouldHaveOneTileInTileGroup() {
 		this.dummy.append(new Tile('a'));
+		assertTrue("A".equals(this.dummy.getHand()));
 		assertEquals(1, this.dummy.tiles().size());
 	}
 	
@@ -33,6 +34,7 @@ class TestTileGroupAppend {
 		this.dummy.append(new Tile('b'));
 		this.dummy.append(new Tile('c'));
 		this.dummy.append(new Tile('d'));
+		assertTrue("ABCD".equals(this.dummy.getHand()));
 		assertEquals(4, this.dummy.tiles().size());
 	}
 	
@@ -42,6 +44,7 @@ class TestTileGroupAppend {
 		this.dummy.append(new Tile('a'));
 		this.dummy.append(new Tile('d'));
 		this.dummy.append(new Tile('d'));
+		assertTrue("AADD".equals(this.dummy.getHand()));
 		assertEquals(4, this.dummy.tiles().size());
 	}
 	

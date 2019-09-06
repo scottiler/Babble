@@ -42,6 +42,7 @@ class TestTileGroupRemove {
 		assertEquals(true, this.dummy.tiles().isEmpty());
 		Tile tile = new Tile('a');
 		this.dummy.append(tile);
+		assertTrue("A".equals(this.dummy.getHand()));
 		assertEquals(false, this.dummy.tiles().isEmpty());
 		this.dummy.remove(tile);
 		assertEquals(true, this.dummy.tiles().isEmpty());
