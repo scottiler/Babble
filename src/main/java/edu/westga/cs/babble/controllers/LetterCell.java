@@ -5,6 +5,13 @@ import javafx.scene.control.ListCell;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Provides formatting for the cellFactory of a ListView of tiles.
+ * 
+ * @author Perry Iler
+ * @version Aug 25, 2019
+ *
+ */
 public class LetterCell extends ListCell<Tile> {
 	@Override
 	public void updateItem(Tile item, boolean empty) {

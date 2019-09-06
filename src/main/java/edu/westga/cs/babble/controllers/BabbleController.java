@@ -4,19 +4,13 @@ import edu.westga.cs.babble.model.EmptyTileBagException;
 import edu.westga.cs.babble.model.PlayedWord;
 import edu.westga.cs.babble.model.Tile;
 import edu.westga.cs.babble.model.TileBag;
-import edu.westga.cs.babble.model.TileGroup;
 import edu.westga.cs.babble.model.TileNotInGroupException;
 import edu.westga.cs.babble.model.TileRack;
 import edu.westga.cs.babble.model.TileRackFullException;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.css.converter.StringConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -28,6 +22,12 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
 
+/**
+ * Controller for BabbleGui
+ * 
+ * @author Perry Iler
+ * @version Aug 20, 2019
+ */
 public class BabbleController implements Initializable {
 	private TileBag bag;
 	private TileRack rack;
@@ -44,12 +44,10 @@ public class BabbleController implements Initializable {
 	@FXML public TextField tilesSize;
 	@FXML public TextField myWordSize;
 	
-	@FXML
-	public Button test;
-	@FXML 
-	public TextField text;
-	
-	
+	/**
+	 * Method that is called upon starting the application to shorten
+	 * the intialize method
+	 */
 	public void init() {
 		this.tiles.setItems(this.rack.tiles());
 		this.myWord.setItems(this.wordRack.tiles());
@@ -70,14 +68,25 @@ public class BabbleController implements Initializable {
 		this.placeTiles();
 	}
 	
-	public void selectTileFromTiles() throws TileRackFullException, EmptyTileBagException, TileNotInGroupException {
+	/**
+	 * Allows the player to select a tile from Tiles and
+	 * move it to My Word
+	 * 
+	 * @throws TileRackFullException TileRack can not be full
+	 * @throws TileNotInGroupException Rack has to contain the tile
+	 */
+	public void selectTileFromTiles() throws TileRackFullException, TileNotInGroupException {
 		Tile selectedTile = this.tiles.getSelectionModel().getSelectedItem();
 		this.wordRack.append(selectedTile);
 		this.rack.remove(selectedTile);
-		this.tilesSize.setText(String.valueOf(this.rack.tiles().size()));
-		this.myWordSize.setText(String.valueOf(this.wordRack.tiles().size()));
 	}
 	
+	/**
+	 * Allows the player to select a tile from My Word and
+	 * move it to Tiles
+	 * 
+	 * @throws TileNotInGroupException WordRack has to contain the tile
+	 */
 	public void selectTileFromWordRack() throws TileNotInGroupException {
 		if (!this.wordRack.tiles().isEmpty()) {
 			Tile selectedTile = this.myWord.getSelectionModel().getSelectedItem();
@@ -86,11 +95,14 @@ public class BabbleController implements Initializable {
 		}
 	}
 	
-	public void playWord() throws TileNotInGroupException {
+	/**
+	 * Submits Tiles in the wordRack for scoring
+	 */
+	public void playWord() {
 		String word = this.wordRack.getHand();
 		
 		if (this.dictionary.isValidWord(word)) {
-			this.tileScore = this.wordRack.getScore();
+			this.tileScore += this.wordRack.getScore();
 			
 			this.totalScore.setScoreTotal(tileScore);
 			this.wordRack.clear();
@@ -101,10 +113,11 @@ public class BabbleController implements Initializable {
 			notWord.setContentText("Not a valid word, Reset and try again");
 			notWord.show(); 
       } 
-  
-		this.text.setText(word);
 	}
 	
+	/**
+	 * Moves all tiles from wordRack back to Rack
+	 */
 	public void reset() {
 		for (Tile tile : this.wordRack.tiles()) {
 			this.rack.append(tile);
@@ -112,6 +125,9 @@ public class BabbleController implements Initializable {
 		this.wordRack.clear();
 	}
 
+	/**
+	 * Draws and places needed tiles in the Rack
+	 */
 	public void placeTiles() {
 		int tilesNeeded = this.rack.getNumberOfTilesNeeded();
 		for (int count = 0; count < tilesNeeded; count++) {
