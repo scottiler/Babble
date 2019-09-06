@@ -5,10 +5,26 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class TestPlayedWordGetScore {
-
+	private PlayedWord play = new PlayedWord();
+	
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void emptyWordShouldHaveScoreOfZero() {
+		this.play.
+	}
+	
+	@Test
+	void scoreAOneTileWord() {
+		
+	}
+	
+	@Test
+	void scoreAWordWithMultipleDifferingTiles() {
+		
+	}
+	
+	@Test
+	void scoreAWordContainingDuplicateTiles() {
+		
 	}
 
 }
